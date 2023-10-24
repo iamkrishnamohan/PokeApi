@@ -3,7 +3,7 @@ buildscript {
     dependencies {
         //classpath("com.android.tools.build:gradle:7.4.2")
         //classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48.1")
+        //classpath("com.google.dagger:hilt-android-gradle-plugin:2.48.1")
         //classpath("com.google.gms:google-services:4.4.0")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.4")
 
@@ -19,7 +19,7 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     //id ("com.android.tools.build:gradle") version "4.1.3" apply  false
     //classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    id ("com.google.dagger.hilt.android") version ("2.48.1") apply false
+    id ("com.google.dagger.hilt.android") version ("2.48") apply false
     // id ("com.google.gms:google-services") version ("4.4.0") apply false
     id("androidx.navigation.safeargs.kotlin") version ("2.5.1") apply false
     //id("com.google.devtools.ksp") version "1.8.21-1.0.11" apply false

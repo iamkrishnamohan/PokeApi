@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     //id("com.google.devtools.ksp")
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
 }
@@ -30,6 +30,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        dataBinding = true
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -72,7 +76,7 @@ dependencies {
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("com.google.truth:truth:1.1.3")
     androidTestImplementation("androidx.navigation:navigation-testing:2.7.4")
-    androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.48")
     implementation("com.squareup.okhttp3:mockwebserver:4.11.0")
     debugImplementation("androidx.fragment:fragment-testing:1.6.1")
 
@@ -90,12 +94,9 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     //dagger hilt
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
 
-    // Hilt Jetpack Integrations
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-    kapt("androidx.hilt:hilt-compiler:1.1.0-rc01")
 
     //swipe refresh
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
