@@ -24,3 +24,6 @@ The project uses an MVVM architecture pattern.
 * Datastore - To store data
   in key-value pairs, in this case to store boolean if the disclaimer dialog is shown or not
 
+## Testing
+Instrumentation Testing with Espresso
+

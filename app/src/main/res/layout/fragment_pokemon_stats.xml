@@ -91,7 +91,7 @@
                     android:layout_marginTop="20dp"
                     android:text="@string/statistics"
                     android:textAppearance="?attr/textAppearanceListItem"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
