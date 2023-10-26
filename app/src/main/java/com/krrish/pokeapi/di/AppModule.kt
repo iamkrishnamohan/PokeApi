@@ -1,6 +1,7 @@
 package com.krrish.pokeapi.di
 
 import android.content.Context
+import com.krrish.pokeapi.BuildConfig
 import com.krrish.pokeapi.api.PokeApi
 import com.krrish.pokeapi.data.repositories.DataStoreRepository
 import com.krrish.pokeapi.utils.BASE_URL
@@ -44,7 +45,7 @@ object AppModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(cacheInterceptor)
             .cache(cache)
-        /*if (BuildConfig.DEBUG)*/ okHttpClient.addInterceptor(loggingInterceptor)
+        if (BuildConfig.DEBUG) okHttpClient.addInterceptor(loggingInterceptor)
 
         return okHttpClient.build()
     }

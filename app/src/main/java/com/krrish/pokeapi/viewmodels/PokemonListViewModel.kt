@@ -20,11 +20,7 @@ class PokemonListViewModel @Inject constructor(
 
     val isDialogShown = dataStoreRepository.isDialogShownFlow
 
-    private var currentResult: Flow<PagingData<PokemonResult>>? = null
     fun getPokemons(searchString: String?): Flow<PagingData<PokemonResult>> {
-        val newResult: Flow<PagingData<PokemonResult>> =
-            pokemonRepository.getPokemon(searchString).cachedIn(viewModelScope)
-        currentResult = newResult
-        return newResult
+        return pokemonRepository.getPokemon(searchString).cachedIn(viewModelScope)
     }
 }

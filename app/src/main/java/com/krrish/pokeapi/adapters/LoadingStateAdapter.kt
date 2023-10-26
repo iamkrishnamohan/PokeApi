@@ -26,8 +26,6 @@ class LoadingStateAdapter(private val retry: () -> Unit) :
         errorBtn.setOnClickListener {
             retry.invoke()
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {

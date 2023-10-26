@@ -22,21 +22,6 @@
         android:id="@+id/pokemonStatsFragment"
         android:name="com.krrish.pokeapi.fragments.PokemonStatsFragment"
         android:label="PokemonStatsFragment"
-        tool:layout="@layout/fragment_pokemon_stats">
-
-        <!--<argument
-            android:name="pokemon_result"
-            app:argType="com.krrish.pokeapi.model.PokemonResult"
-            app:nullable="false" />
-
-        <argument
-            android:name="dominant_color"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="picture"
-            app:argType="string"
-            app:nullable="true" />-->
-    </fragment>
+        tool:layout="@layout/fragment_pokemon_stats"/>
 
 </navigation>

@@ -30,29 +30,23 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit
     ) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val data = getItem(position)!!
-
         holder.bind(data)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         return ViewHolder(
             ListItemPokemonBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
-
     }
 
     inner class ViewHolder(
         private val binding: ListItemPokemonBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
         var dominantColor: Int = 0
         var picture: String? = ""
-
         fun bind(pokemonResult: PokemonResult) {
             binding.apply {
                 pokemonItemTitle.text = pokemonResult.name.replaceFirstChar {
@@ -69,14 +63,11 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit
 
         }
 
-        private fun loadImage(binding: ListItemPokemonBinding, pokemonResult: PokemonResult) {
-
-            /*Loading the image and hiding the progress bar after its done,
+        /*Loading the image and hiding the progress bar after its done,
             also using palette library to extract dominant color
             and setting imageview background*/
-
+        private fun loadImage(binding: ListItemPokemonBinding, pokemonResult: PokemonResult) {
             picture = pokemonResult.url.getPicUrl()
-
             binding.apply {
                 Glide.with(root)
                     .load(picture)
@@ -109,10 +100,7 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit
                                             R.color.white
                                         )
                                     )
-
                                     pokemonItemImage.setBackgroundColor(dominantColor)
-
-
                                 }
                             }
                             progressCircular.isVisible = false
@@ -136,7 +124,6 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit
         }
     }
     //checking if the pokemon are being displayed or the loading more progressbar inorder to set spans accordingly.
-
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount) {
             NETWORK_VIEW_TYPE

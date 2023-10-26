@@ -32,7 +32,6 @@ class PokemonStatsFragment : Fragment() {
     private lateinit var binding: FragmentPokemonStatsBinding
     private val adapter = StatsAdapter()
 
-    // private val args = PokemonStatsFragmentArgs
     private val viewModel: PokemonStatsViewModel by viewModels()
 
     override fun onCreateView(
@@ -47,10 +46,6 @@ class PokemonStatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /* val argument = arguments?.let { args.fromBundle(it) }
-         val pokemonResult = argument?.pokemonResult
-         val dominantColor = argument?.dominantColor
-         val picture = argument?.picture*/
         val bundleTitle = this.arguments
         if (bundleTitle != null) {
             val pokemonResult =
@@ -64,12 +59,10 @@ class PokemonStatsFragment : Fragment() {
 
 
             //setting the colors based on dominant colors
-            if (dominantColor != 0) {
-                dominantColor?.let { theColor ->
-                    binding.card.setBackgroundColor(theColor)
-                    binding.toolbar.setBackgroundColor(theColor)
-                    requireActivity().window.statusBarColor = theColor
-                }
+            dominantColor?.let { theColor ->
+                binding.card.setBackgroundColor(theColor)
+                binding.toolbar.setBackgroundColor(theColor)
+                requireActivity().window.statusBarColor = theColor
             }
 
             val toolbar = binding.toolbar as Toolbar

@@ -86,7 +86,6 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun setRefresh() {
-
         binding.swipeRefreshLayout.setOnRefreshListener {
             startFetchingPokemon(null, true)
 
@@ -107,7 +106,6 @@ class PokemonListFragment : Fragment() {
             false
         }
         binding.searchView.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
-
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 hasUserSearched = true
                 binding.scrollUp.toggle(false)
@@ -116,7 +114,6 @@ class PokemonListFragment : Fragment() {
             }
             false
         })
-
         binding.searchView.addTextChangedListener {
 
             if (it.toString().isEmpty() && hasUserSearched) {
@@ -139,7 +136,6 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun startFetchingPokemon(searchString: String?, shouldSubmitEmpty: Boolean) {
-
         //collecting flow then setting to adapter
         job?.cancel()
         job = lifecycleScope.launch {
@@ -153,32 +149,24 @@ class PokemonListFragment : Fragment() {
 
     private fun performSearch(searchString: String) {
         hideSoftKeyboard()
-
         if (searchString.isEmpty()) {
             requireContext().toast("Search cannot be empty")
             return
         }
         startFetchingPokemon(searchString, true)
-
-
     }
 
     private fun hideSoftKeyboard() {
         val view = requireActivity().currentFocus
-
         view?.let {
             val imm =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
-
-
     }
 
     private fun setAdapter() {
-
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
-
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val viewType = adapter.getItemViewType(position)
@@ -190,13 +178,11 @@ class PokemonListFragment : Fragment() {
         binding.pokemonList.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter { retry() }
         )
-
         binding.pokemonList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val scrolledPosition =
                     (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
-
                 if (scrolledPosition != null) {
                     if (scrolledPosition >= 1) {
                         binding.scrollUp.toggle(true)
@@ -204,7 +190,6 @@ class PokemonListFragment : Fragment() {
                         binding.scrollUp.toggle(false)
                     }
                 }
-
             }
         })
 
@@ -219,19 +204,15 @@ class PokemonListFragment : Fragment() {
             ) {
                 binding.progressCircular.isVisible = true
                 binding.textError.isVisible = false
-
-
             } else {
                 binding.progressCircular.isVisible = false
                 binding.swipeRefreshLayout.isRefreshing = false
 
                 //if there is error a textview will show the error encountered.
-
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
                     loadState.append is LoadState.Error -> loadState.append as LoadState.Error
                     loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
-
                     else -> null
                 }
                 if (adapter.snapshot().isEmpty()) {
@@ -241,13 +222,10 @@ class PokemonListFragment : Fragment() {
                             adapter.retry()
                         }
                     }
-
                 }
             }
         }
-
     }
-
 
     override fun onPause() {
         super.onPause()

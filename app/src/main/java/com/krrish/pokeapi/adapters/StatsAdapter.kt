@@ -22,7 +22,6 @@ class StatsAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-
         return CartViewHolder(
             StatItemPokemonBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -34,9 +33,7 @@ class StatsAdapter :
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-
         holder.bind(stats[position])
-
     }
 
     override fun getItemCount(): Int {
@@ -47,7 +44,6 @@ class StatsAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         //Max base state is 255, using this set the progressbar progress based on pokemon stat.
-
         fun bind(stat: Stats) {
             binding.apply {
                 val mProgress = progressCircular
@@ -81,11 +77,9 @@ class StatsAdapter :
                             if (it.isLowerCase()) it.titlecase(Locale.getDefault())
                             else it.toString()
                         }
-
                     "$first - $second".also { statName.text = it }
                 }
                 statCount.text = stat.base_stat.toString()
-
             }
         }
     }
