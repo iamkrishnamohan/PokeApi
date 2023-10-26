@@ -1,5 +1,6 @@
 package com.krrish.pokeapi.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -99,6 +100,7 @@ class PokemonListFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setSearchView() {
         binding.searchView.setOnTouchListener { v, _ ->
             v.isFocusableInTouchMode = true
@@ -206,8 +208,10 @@ class PokemonListFragment : Fragment() {
             }
         })
 
-        if (!hasInitiatedInitialCall) startFetchingPokemon(null, false); hasInitiatedInitialCall =
-            true
+        if (!hasInitiatedInitialCall) {
+            startFetchingPokemon(null, false)
+            hasInitiatedInitialCall = true
+        }
 
         //the progress will only show when the adapter is refreshing and its empty
         adapter.addLoadStateListener { loadState ->
@@ -250,12 +254,6 @@ class PokemonListFragment : Fragment() {
         binding.searchView.isFocusable = false
     }
 
-    override fun onResume() {
-        super.onResume()
-        /*//setting the status bar color back
-        requireActivity().window.statusBarColor =
-            ContextCompat.getColor(requireContext(), R.color.green)*/
-    }
 
     private fun retry() {
         adapter.retry()
@@ -269,13 +267,6 @@ class PokemonListFragment : Fragment() {
             "picture" to picture
         )
         findNavController().navigate(R.id.to_pokemonStatsFragment, bundle)
-        /*binding.root.findNavController()
-            .navigate(
-                PokemonListFragmentDirections.toPokemonStatsFragment(
-                    pokemonResult,
-                    dominantColor, picture
-                )
-            )*/
 
 
     }

@@ -17,5 +17,5 @@ class PokemonStatsViewModel @Inject constructor(private val pokemonRepository: P
         emit(NetworkResource.Loading)
         emit(pokemonRepository.getSinglePokemon(id))
     }
-
 }
+

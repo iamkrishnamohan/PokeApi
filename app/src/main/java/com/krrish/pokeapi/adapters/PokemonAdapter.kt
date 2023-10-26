@@ -22,6 +22,7 @@ import com.krrish.pokeapi.model.PokemonResult
 import com.krrish.pokeapi.utils.NETWORK_VIEW_TYPE
 import com.krrish.pokeapi.utils.PRODUCT_VIEW_TYPE
 import com.krrish.pokeapi.utils.getPicUrl
+import java.util.Locale
 
 class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit) :
     PagingDataAdapter<PokemonResult, PokemonAdapter.ViewHolder>(
@@ -54,7 +55,11 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit
 
         fun bind(pokemonResult: PokemonResult) {
             binding.apply {
-                pokemonItemTitle.text = pokemonResult.name.capitalize()
+                pokemonItemTitle.text = pokemonResult.name.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.ENGLISH
+                    ) else it.toString()
+                }
                 loadImage(this, pokemonResult)
 
                 root.setOnClickListener {
@@ -66,10 +71,9 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit
 
         private fun loadImage(binding: ListItemPokemonBinding, pokemonResult: PokemonResult) {
 
-            /*Loading the image and hiding the progress bar after its done, also using palette library to extract dominant color
-            and setting imageview background
-
-             */
+            /*Loading the image and hiding the progress bar after its done,
+            also using palette library to extract dominant color
+            and setting imageview background*/
 
             picture = pokemonResult.url.getPicUrl()
 
@@ -140,5 +144,5 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String?) -> Unit
             PRODUCT_VIEW_TYPE
         }
     }
-
 }
+

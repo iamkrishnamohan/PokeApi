@@ -13,12 +13,15 @@ class PokemonDataSource(private val pokemonApi: PokeApi, private val searchStrin
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonResult> {
         val offset = params.key ?: STARTING_OFFSET_INDEX
 
-        /*since pokeapi doesn't provide the search filter endpoint, here I am searching all of the 1118 pokemon based on the string user
-        entered, the process will be repeated until all the 1118 pokemon in the api is searched, not the optimum solution, would be better if
+        /*since pokeapi doesn't provide the search filter endpoint,
+        here I am searching all of the 1118 pokemon based on the string user
+        entered, the process will be repeated until all the 1118 pokemon
+        in the api is searched, not the optimum solution, would be better if
         pokeapi had search endpoint.
         */
 
-        /*if user doesn't pass search string the load size per scroll will  be 10 but if they provide it will be 100 as not everything will be displayed
+        /*if user doesn't pass search string the load size per scroll will
+         be 10 but if they provide it will be 100 as not everything will be displayed
         only that matches the search string
          */
         val loadSize = if (searchString == null) params.loadSize else SEARCH_LOAD_SIZE
@@ -32,7 +35,8 @@ class PokemonDataSource(private val pokemonApi: PokeApi, private val searchStrin
                 data.results
             }
 
-            //next offset = last offset + loadsize, returning null is telling the paging 3 that there is no more to load and should stop
+            //next offset = last offset + loadsize, returning null is telling the paging 3
+            // that there is no more to load and should stop
             LoadResult.Page(
                 data = filteredData,
                 prevKey = if (offset == STARTING_OFFSET_INDEX) null else offset - loadSize,
@@ -50,8 +54,6 @@ class PokemonDataSource(private val pokemonApi: PokeApi, private val searchStrin
 
 
     override fun getRefreshKey(state: PagingState<Int, PokemonResult>): Int? {
-
         return state.anchorPosition
-
     }
 }

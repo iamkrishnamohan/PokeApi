@@ -25,12 +25,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class PokemonStatsFragment : Fragment() {
     private lateinit var binding: FragmentPokemonStatsBinding
     private val adapter = StatsAdapter()
-   // private val args = PokemonStatsFragmentArgs
+
+    // private val args = PokemonStatsFragmentArgs
     private val viewModel: PokemonStatsViewModel by viewModels()
 
     override fun onCreateView(
@@ -74,7 +76,10 @@ class PokemonStatsFragment : Fragment() {
             toolbar.elevation = 0.0F
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
             (activity as AppCompatActivity).supportActionBar!!.title =
-                pokemonResult?.name?.capitalize()
+                pokemonResult?.name?.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(Locale.getDefault())
+                    else it.toString()
+                }
             (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(true)
 
@@ -128,5 +133,4 @@ class PokemonStatsFragment : Fragment() {
             }
         }
     }
-
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class StatsAdapter :
     RecyclerView.Adapter<StatsAdapter.CartViewHolder>() {
@@ -18,7 +19,6 @@ class StatsAdapter :
     fun setStats(newList: ArrayList<Stats>) {
         stats.clear()
         stats.addAll(newList)
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
@@ -64,11 +64,23 @@ class StatsAdapter :
                     }
                 }
 
-                statName.text = stat.stat.name.capitalize()
+                statName.text = stat.stat.name.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                }
 
                 if (stat.stat.name.contains("-")) {
-                    val first = stat.stat.name.substringBefore("-").capitalize()
-                    val second = stat.stat.name.substringAfter("-").capitalize()
+                    val first = stat.stat.name.substringBefore("-")
+                        .replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(Locale.getDefault())
+                            else it.toString()
+                        }
+                    val second = stat.stat.name.substringAfter("-")
+                        .replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(Locale.getDefault())
+                            else it.toString()
+                        }
 
                     "$first - $second".also { statName.text = it }
                 }
