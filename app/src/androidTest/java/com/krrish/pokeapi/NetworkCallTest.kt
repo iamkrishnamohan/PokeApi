@@ -58,8 +58,6 @@ class NetworkCallTest {
             .setResponseCode(HttpURLConnection.HTTP_OK)
             .setBody(String(jsonBytes))
         mockWebServer.enqueue(response)
-
-
     }
 
     @After

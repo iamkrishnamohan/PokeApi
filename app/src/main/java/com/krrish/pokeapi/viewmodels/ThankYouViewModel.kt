@@ -13,6 +13,5 @@ class ThankYouViewModel @Inject constructor(private val dataStoreRepository: Dat
 
     fun saveDialogShown() = viewModelScope.launch {
         dataStoreRepository.saveDialogShown()
-
     }
 }

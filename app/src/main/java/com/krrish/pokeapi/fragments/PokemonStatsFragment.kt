@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,7 +17,12 @@ import com.krrish.pokeapi.adapters.StatsAdapter
 import com.krrish.pokeapi.databinding.FragmentPokemonStatsBinding
 import com.krrish.pokeapi.model.PokemonResult
 import com.krrish.pokeapi.model.Stats
+import com.krrish.pokeapi.utils.DOMINANT_COLOR
 import com.krrish.pokeapi.utils.NetworkResource
+import com.krrish.pokeapi.utils.PICTURE
+import com.krrish.pokeapi.utils.POKEMON_RESULT
+import com.krrish.pokeapi.utils.STATS_DIV_DURATION
+import com.krrish.pokeapi.utils.STATS_DURATION
 import com.krrish.pokeapi.utils.toast
 import com.krrish.pokeapi.viewmodels.PokemonStatsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,22 +54,22 @@ class PokemonStatsFragment : Fragment() {
         if (bundleTitle != null) {
             val pokemonResult =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    bundleTitle.getParcelable("pokemon_result", PokemonResult::class.java)
+                    bundleTitle.getParcelable(POKEMON_RESULT, PokemonResult::class.java)
                 } else {
-                    bundleTitle.getParcelable("pokemon_result")
+                    bundleTitle.getParcelable(POKEMON_RESULT)
                 }
-            val dominantColor = bundleTitle.getInt("dominant_color")
-            val picture = bundleTitle.getString("picture")
+            val dominantColor = bundleTitle.getInt(DOMINANT_COLOR)
+            val picture = bundleTitle.getString(PICTURE)
 
 
             //setting the colors based on dominant colors
-            dominantColor?.let { theColor ->
+            dominantColor.let { theColor ->
                 binding.card.setBackgroundColor(theColor)
                 binding.toolbar.setBackgroundColor(theColor)
                 requireActivity().window.statusBarColor = theColor
             }
 
-            val toolbar = binding.toolbar as Toolbar
+            val toolbar = binding.toolbar
             toolbar.elevation = 0.0F
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
             (activity as AppCompatActivity).supportActionBar!!.title =
@@ -97,16 +101,18 @@ class PokemonStatsFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.Main) {
             //a bit delay for the animation to finish
-            delay(300)
+            delay(STATS_DURATION)
             viewModel.getSinglePokemon(pokemonResult.url).collect {
                 when (it) {
                     is NetworkResource.Success -> {
                         binding.progressCircular.isVisible = false
                         binding.apply {
-                            (it.value.weight.div(10.0).toString() + " kgs").also { weight ->
+                            (it.value.weight.div(STATS_DIV_DURATION)
+                                .toString() + " kgs").also { weight ->
                                 pokemonItemWeight.text = weight
                             }
-                            (it.value.height.div(10.0).toString() + " metres").also { height ->
+                            (it.value.height.div(STATS_DIV_DURATION)
+                                .toString() + " metres").also { height ->
                                 pokemonItemHeight.text = height
                             }
                             pokemonStatList.adapter = adapter

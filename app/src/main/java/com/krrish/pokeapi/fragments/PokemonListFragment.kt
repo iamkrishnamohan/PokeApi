@@ -1,13 +1,11 @@
 package com.krrish.pokeapi.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -15,7 +13,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -27,7 +24,12 @@ import com.krrish.pokeapi.adapters.LoadingStateAdapter
 import com.krrish.pokeapi.adapters.PokemonAdapter
 import com.krrish.pokeapi.databinding.FragmentPokemonListBinding
 import com.krrish.pokeapi.model.PokemonResult
+import com.krrish.pokeapi.utils.DOMINANT_COLOR
+import com.krrish.pokeapi.utils.PICTURE
+import com.krrish.pokeapi.utils.POKEMON_RESULT
 import com.krrish.pokeapi.utils.PRODUCT_VIEW_TYPE
+import com.krrish.pokeapi.utils.SCROLL_DURATION
+import com.krrish.pokeapi.utils.hideSoftKeyboard
 import com.krrish.pokeapi.utils.toast
 import com.krrish.pokeapi.utils.toggle
 import com.krrish.pokeapi.viewmodels.PokemonListViewModel
@@ -50,7 +52,7 @@ class PokemonListFragment : Fragment() {
     lateinit var thankYouDialog: ThankYouDialog
 
     private val adapter =
-        PokemonAdapter { pokemonResult: PokemonResult, dominantColor: Int, picture: String? ->
+        PokemonAdapter { pokemonResult: PokemonResult, dominantColor: Int?, picture: String? ->
             navigate(
                 pokemonResult,
                 dominantColor,
@@ -78,11 +80,10 @@ class PokemonListFragment : Fragment() {
         binding.scrollUp.setOnClickListener {
             lifecycleScope.launch {
                 binding.pokemonList.scrollToPosition(0)
-                delay(100)
+                delay(SCROLL_DURATION)
                 binding.scrollUp.toggle(false)
             }
         }
-
     }
 
     private fun setRefresh() {
@@ -94,7 +95,7 @@ class PokemonListFragment : Fragment() {
                 isFocusable = false
 
             }
-            hideSoftKeyboard()
+            hideSoftKeyboard(requireActivity())
 
         }
     }
@@ -118,11 +119,10 @@ class PokemonListFragment : Fragment() {
 
             if (it.toString().isEmpty() && hasUserSearched) {
                 startFetchingPokemon(null, true)
-                hideSoftKeyboard()
+                hideSoftKeyboard(requireActivity())
                 hasUserSearched = false
             }
         }
-
     }
 
     private fun checkDialog() {
@@ -146,23 +146,13 @@ class PokemonListFragment : Fragment() {
         }
     }
 
-
     private fun performSearch(searchString: String) {
-        hideSoftKeyboard()
+        hideSoftKeyboard(requireActivity())
         if (searchString.isEmpty()) {
             requireContext().toast("Search cannot be empty")
             return
         }
         startFetchingPokemon(searchString, true)
-    }
-
-    private fun hideSoftKeyboard() {
-        val view = requireActivity().currentFocus
-        view?.let {
-            val imm =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
     }
 
     private fun setAdapter() {
@@ -176,7 +166,7 @@ class PokemonListFragment : Fragment() {
         }
         binding.pokemonList.layoutManager = gridLayoutManager
         binding.pokemonList.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter { retry() }
+            footer = LoadingStateAdapter { adapter.retry() }
         )
         binding.pokemonList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -232,20 +222,14 @@ class PokemonListFragment : Fragment() {
         binding.searchView.isFocusable = false
     }
 
-
-    private fun retry() {
-        adapter.retry()
-    }
-
     //navigating to stats fragment passing the pokemon and the dominant color
-    private fun navigate(pokemonResult: PokemonResult, dominantColor: Int, picture: String?) {
+    private fun navigate(pokemonResult: PokemonResult, dominantColor: Int?, picture: String?) {
         val bundle = bundleOf(
-            "pokemon_result" to pokemonResult,
-            "dominant_color" to dominantColor,
-            "picture" to picture
+            POKEMON_RESULT to pokemonResult,
+            DOMINANT_COLOR to dominantColor,
+            PICTURE to picture
         )
         findNavController().navigate(R.id.to_pokemonStatsFragment, bundle)
-
-
     }
 }
+

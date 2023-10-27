@@ -21,7 +21,6 @@ class ThankYouDialog @Inject constructor() : DialogFragment(R.layout.dialog_than
 
         isCancelable = false
         binding = DialogThankYouBinding.bind(view)
-       // dialog?.window?.attributes?.windowAnimations = R.style.DialogTheme
         viewModel.saveDialogShown()
         binding.confirmButton.setOnClickListener {
             dialog?.dismiss()

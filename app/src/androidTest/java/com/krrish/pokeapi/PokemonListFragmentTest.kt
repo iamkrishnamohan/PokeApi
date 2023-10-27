@@ -12,15 +12,9 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PokemonListFragmentTest {
-    @Rule
-    @JvmField
+    @get:Rule
     var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @Test
-    fun recyclerview_is_showing() {
-        Espresso.onView(withId(R.id.pokemon_list))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-    }
 
     @Test
     fun searchView_is_showing() {

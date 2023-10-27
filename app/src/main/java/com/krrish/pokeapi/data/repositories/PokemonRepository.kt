@@ -11,7 +11,6 @@ import javax.inject.Singleton
 class PokemonRepository @Inject constructor(private val pokemonApi: PokeApi) : BaseRepository() {
 
     //Returning the fetched data as flow
-
     fun getPokemon(searchString: String?) = Pager(
         config = PagingConfig(enablePlaceholders = false, pageSize = 25),
         pagingSourceFactory = {

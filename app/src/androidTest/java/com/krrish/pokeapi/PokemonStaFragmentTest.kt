@@ -19,8 +19,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class PokemonStaFragmentTest {
 
-    @Rule
-    @JvmField
+    @get:Rule
     var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before

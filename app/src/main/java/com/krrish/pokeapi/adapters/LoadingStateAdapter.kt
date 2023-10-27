@@ -24,7 +24,7 @@ class LoadingStateAdapter(private val retry: () -> Unit) :
             txtErrorMessage.text = loadState.error.localizedMessage
         }
         errorBtn.setOnClickListener {
-            retry.invoke()
+            retry()
         }
     }
 

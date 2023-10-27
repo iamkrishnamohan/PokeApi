@@ -78,6 +78,7 @@ dependencies {
     androidTestImplementation("com.google.truth:truth:1.1.3")
     androidTestImplementation("androidx.navigation:navigation-testing:2.7.4")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
+    androidTestImplementation("org.hamcrest:hamcrest:2.2")
     implementation("com.squareup.okhttp3:mockwebserver:4.11.0")
     debugImplementation("androidx.fragment:fragment-testing:1.6.1")
 
